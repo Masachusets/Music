@@ -21,7 +21,7 @@ def create_tables():
 
                     CREATE table if not EXISTS albums (
                     album_id SERIAL primary key,
-                    album_name VARCHAR(40) not null,
+                    album_name VARCHAR(80) not null,
                     album_year INT);
 
                     CREATE table if not EXISTS singeralbum (
@@ -32,12 +32,12 @@ def create_tables():
                     CREATE table if not EXISTS tracks (
                     track_id SERIAL primary key,
                     album_id INTEGER references albums(album_id),
-                    track_name VARCHAR(40) not null,
+                    track_name VARCHAR(80) not null,
                     track_time INT);
 
                     CREATE table if not EXISTS compilations (
                     compilation_id SERIAL primary key,
-                    compilation_name VARCHAR(40) not null,
+                    compilation_name VARCHAR(80) not null,
                     compilation_year VARCHAR(4));
 
                     CREATE table if not EXISTS compilationtrack (

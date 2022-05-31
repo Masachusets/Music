@@ -11,7 +11,7 @@ conn = engine.connect()
 
 def fill_genres(genres):
     for genre in genres:
-        conn.execute(f'''INSERT INTO singers (singer_name) 
+        conn.execute(f'''INSERT INTO genres (genre_name) 
                          VALUES ('{genre}');
                       ''')
 
@@ -25,13 +25,15 @@ def fill_singers(singers):
 
 def fill_singergenre(singer_genre):
     for singer, genres in singer_genre.items():
+        if singer not in Spotify.singers:
+            continue
         singer_id = list(conn.execute(f'''SELECT singer_id FROM singers 
                                           WHERE singer_name='{singer}';
                                        ''').fetchone())[0]
         for genre in genres:
-            genre_id = list(conn.execute(f'''SELECT genre_id FROM genres 
+            genre_id = conn.execute(f'''SELECT genre_id FROM genres 
                                              WHERE genre_name='{genre}';
-                                          ''').fetchone())[0]
+                                          ''').fetchone()[0]
             conn.execute(f'''INSERT INTO singergenre (singer_id, genre_id) 
                              VALUES ({singer_id}, {genre_id});
                           ''')
@@ -69,7 +71,7 @@ def fill_tracks(tracks):
 
 def fill_compilations(compilations):
     for compilation in compilations:
-        conn.execute(f'''INSERT INTO albums (compilation_name, compilation_year) 
+        conn.execute(f'''INSERT INTO compilations (compilation_name, compilation_year) 
                          VALUES ('{compilation[0]}', {compilation[1]});
                       ''')
 
