@@ -27,9 +27,9 @@ def fill_singergenre(singer_genre):
     for singer, genres in singer_genre.items():
         if singer not in Spotify.singers:
             continue
-        singer_id = list(conn.execute(f'''SELECT singer_id FROM singers 
+        singer_id = conn.execute(f'''SELECT singer_id FROM singers 
                                           WHERE singer_name='{singer}';
-                                       ''').fetchone())[0]
+                                       ''').fetchone()[0]
         for genre in genres:
             genre_id = conn.execute(f'''SELECT genre_id FROM genres 
                                              WHERE genre_name='{genre}';
@@ -48,12 +48,12 @@ def fill_albums(albums):
 
 def fill_singeralbum(singer_album):
     for sin_al in singer_album:
-        singer_id = list(conn.execute(f'''SELECT singer_id FROM singers 
+        singer_id = conn.execute(f'''SELECT singer_id FROM singers 
                                           WHERE singer_name='{sin_al[0]}';
-                                       ''').fetchone())[0]
-        album_id = list(conn.execute(f'''SELECT album_id FROM albums 
+                                       ''').fetchone()[0]
+        album_id = conn.execute(f'''SELECT album_id FROM albums 
                                          WHERE album_name='{sin_al[1]}';
-                                      ''').fetchone())[0]
+                                      ''').fetchone()[0]
         conn.execute(f'''INSERT INTO singeralbum (singer_id, album_id) 
                          VALUES ({singer_id}, {album_id});
                       ''')
@@ -61,9 +61,9 @@ def fill_singeralbum(singer_album):
 
 def fill_tracks(tracks):
     for track in tracks:
-        album_id = list(conn.execute(f'''SELECT album_id FROM albums 
+        album_id = conn.execute(f'''SELECT album_id FROM albums 
                                          WHERE album_name='{track[2]}';
-                                      ''').fetchone())[0]
+                                      ''').fetchone()[0]
         conn.execute(f'''INSERT INTO tracks (track_name, track_time, album_id) 
                          VALUES ('{track[0]}', {track[1]}, {album_id});
                       ''')
@@ -78,24 +78,18 @@ def fill_compilations(compilations):
 
 def fill_compilationtrack(compilation_track):
     for compilation, tracks in compilation_track.items():
-        compilation_id = list(conn.execute(f'''SELECT compilation_id FROM compilations 
+        compilation_id = conn.execute(f'''SELECT compilation_id FROM compilations 
                                                WHERE compilation_name='{compilation}';
-                                            ''').fetchone())[0]
+                                            ''').fetchone()[0]
         for track in tracks:
-            track_id = list(conn.execute(f'''SELECT track_id FROM tracks 
+            track_id = conn.execute(f'''SELECT track_id FROM tracks 
                                              WHERE track_name='{track}';
-                                          ''').fetchone())[0]
+                                          ''').fetchone()[0]
             conn.execute(f'''INSERT INTO compilationtrack (compilation_id, track_id) 
                              VALUES ({compilation_id}, {track_id});
                           ''')
 
 
-# sel = conn.execute(
-# """
-# SELECT * FROM albums;
-# """).fetchall()
-#
-# pprint(sel)
 if __name__ == '__main__':
     create_tables()
     fill_genres(Spotify.genres)

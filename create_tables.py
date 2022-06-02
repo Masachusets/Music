@@ -38,7 +38,7 @@ def create_tables():
                     CREATE table if not EXISTS compilations (
                     compilation_id SERIAL primary key,
                     compilation_name VARCHAR(80) not null,
-                    compilation_year VARCHAR(4));
+                    compilation_year INT);
 
                     CREATE table if not EXISTS compilationtrack (
                     compilation_id  INT references compilations(compilation_id),

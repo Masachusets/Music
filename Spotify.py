@@ -21,17 +21,17 @@ sp = spotipy.Spotify(auth_manager=SpotifyOAuth(client_id=SPOTIPY_CLIENT_ID,
                                                redirect_uri=SPOTIPY_REDIRECT_URI,
                                                scope=scope))
 
-current_user_saved_tracks = sp.current_user_saved_tracks(limit=30)
+current_user_saved_tracks = sp.current_user_saved_tracks(limit=50)
 
 
-genres = ('acoustic', 'alternative', 'blues', 'classical', 'country', 'dance', 'electro', 'folk', 'guitar', 'hip_hop',
+genres = ('acoustic', 'alternative', 'blues', 'classical', 'country', 'dance', 'electro', 'folk', 'guitar', 'hip-hop',
           'jazz', 'metal', 'opera', 'piano', 'pop', 'punk', 'reggae', 'rock', 'rock-n-roll', 'romance', 'soundtrack')
 
 
 singers = set(artist['name'] for item in current_user_saved_tracks['items'] for artist in item['track']['artists'])
 
 
-singer_genre = {'25/17': ('alternative', 'hip_hop', 'rock'),
+singer_genre = {'25/17': ('alternative', 'hip-hop', 'rock'),
                 '7B': ('alternative', 'pop', 'rock'),
                 'Adelitas Way': ('rock',),
                 'Animal Jazz': ('alternative', 'rock'),
@@ -68,7 +68,7 @@ singer_album = set((artist['name'], item['track']['album']['name'])
                    for item in current_user_saved_tracks['items'] for artist in item['track']['artists'])
 
 
-tracks = ([item['track']['name'], item['track']['duration_ms'] // 1000, item['track']['album']['name']]
+tracks = set((item['track']['name'], item['track']['duration_ms'] // 1000, item['track']['album']['name'])
           for item in current_user_saved_tracks['items'])
 
 
@@ -104,11 +104,12 @@ for item in current_user_saved_tracks['items']:
         compilation_track['after 2010'].append(track['name'])
     else:
         compilation_track['from 2001 to 2011'].append(track['name'])
+for compilation in compilation_track:
+    compilation_track[compilation] = set(compilation_track[compilation])
 
 # for item in current_user_saved_tracks['items']:
 #     track = item['track']['album']['artists']
 # pprint(compilation_track)
-
 
 # pprint(genres['genres'])
 # if __name__ == '__main__':
