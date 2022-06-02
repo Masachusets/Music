@@ -107,9 +107,3 @@ for item in current_user_saved_tracks['items']:
 for compilation in compilation_track:
     compilation_track[compilation] = set(compilation_track[compilation])
 
-# for item in current_user_saved_tracks['items']:
-#     track = item['track']['album']['artists']
-# pprint(compilation_track)
-
-# pprint(genres['genres'])
-# if __name__ == '__main__':
