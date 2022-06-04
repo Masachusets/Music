@@ -69,7 +69,7 @@ singer_album = set((artist['name'], item['track']['album']['name'])
 
 
 tracks = set((item['track']['name'], item['track']['duration_ms'] // 1000, item['track']['album']['name'])
-          for item in current_user_saved_tracks['items'])
+             for item in current_user_saved_tracks['items'])
 
 
 compilations = (('one word', 2020),
@@ -106,4 +106,3 @@ for item in current_user_saved_tracks['items']:
         compilation_track['from 2001 to 2011'].append(track['name'])
 for compilation in compilation_track:
     compilation_track[compilation] = set(compilation_track[compilation])
-
