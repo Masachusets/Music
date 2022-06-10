@@ -36,14 +36,13 @@ req5 = '''select singer_name, compilation_name
                                    join compilations USING(compilation_id)
           where singer_name = 'Basta';'''
 
-req6 = '''select album_name 
-          from albums
-               join singeralbum USING(album_id)
-                    join singers USING(singer_id)
-          where singer_id not in (select singer_id 
-                                  from singergenre 
-                                  group by singer_id
-                                  having count(genre_id) = 1);'''
+req6 = '''SELECT album_name 
+          FROM albums
+               JOIN singeralbum USING(album_id)
+                    JOIN singers USING(singer_id)
+                         JOIN singergenre USING(singer_id)
+          GROUP BY album_name
+          HAVING count(genre_id) <> 1;'''
 
 req7 = '''select track_name
           from tracks 
@@ -71,4 +70,4 @@ if __name__ == '__main__':
     db = 'postgresql://dima:1242@localhost:5432/music'
     engine = sqlalchemy.create_engine(db)
     conn = engine.connect()
-    print(*req_to_tab(req9), sep='\n')
+    print(*req_to_tab(req6), sep='\n')
