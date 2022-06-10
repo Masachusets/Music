@@ -27,6 +27,12 @@ req4 = '''SELECT DISTINCT singer_name
                     JOIN albums USING(album_id)
           WHERE album_year <> 2020;'''
 
+req4_1 = '''SELECT singer_name 
+            FROM singers
+                 JOIN singeralbum USING(singer_id)
+                      JOIN albums USING(album_id)
+            WHERE singer_name NOT IN (SELECT singer_name WHERE album_year = 2020);'''
+
 req5 = '''select singer_name, compilation_name 
           from singers
                join singeralbum USING(singer_id)
@@ -70,4 +76,4 @@ if __name__ == '__main__':
     db = 'postgresql://dima:1242@localhost:5432/music'
     engine = sqlalchemy.create_engine(db)
     conn = engine.connect()
-    print(*req_to_tab(req4), sep='\n')
+    print(*req_to_tab(req6), sep='\n')
