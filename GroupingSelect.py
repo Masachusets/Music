@@ -21,11 +21,11 @@ req3 = '''select album_name, avg(track_time)
                join albums USING(album_id)
           group by album_name;'''
 
-req4 = '''select singer_name 
-          from singers
-               join singeralbum USING(singer_id)
-                    join albums USING(album_id)
-          where singer_name not in (select singer_name where album_year = 2020);'''
+req4 = '''SELECT DISTINCT singer_name
+          FROM singers
+               JOIN singeralbum USING(singer_id)
+                    JOIN albums USING(album_id)
+          WHERE album_year <> 2020;'''
 
 req5 = '''select singer_name, compilation_name 
           from singers
@@ -70,4 +70,4 @@ if __name__ == '__main__':
     db = 'postgresql://dima:1242@localhost:5432/music'
     engine = sqlalchemy.create_engine(db)
     conn = engine.connect()
-    print(*req_to_tab(req6), sep='\n')
+    print(*req_to_tab(req4), sep='\n')
